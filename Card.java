@@ -39,7 +39,22 @@ public class Card {
      * @return Um array de Position contendo todas as possíveis posições de movimento em relação ao ponto de origem
      */
     public Position[] getPositions() {
-        Position positions[] = new Position[5];
+        Position positions[] = new Position[13];
+
+        positions[0] = new Position(1, 0);
+        positions[1] = new Position(-1, 0);
+        positions[2] = new Position(0, 1);
+        positions[3] = new Position(0, -1);
+        positions[4] = new Position(1, 1);
+        positions[5] = new Position(1, -1);
+        positions[6] = new Position(-1, 1);
+        positions[7] = new Position(-1, -1);
+        positions[8] = new Position(0, 2);
+        positions[9] = new Position(0, -2);
+        positions[10] = new Position(2, 0);
+        positions[11] = new Position(1, 2);
+        positions[12] = new Position(1, -2);
+
         return positions;
     }
 
