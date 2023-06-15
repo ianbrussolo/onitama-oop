@@ -3,9 +3,9 @@
  */
 public class Card {
 
-    String name;
-    Color color;
-    Position[] positions;
+    private String name;
+    private Color color;
+    private Position[] positions;
 
     /**
      * Construtor que define os principais atributos de uma cara
@@ -14,7 +14,9 @@ public class Card {
      * @param positions Todas as posições relativas de movimento
      */
     public Card(String name, Color color, Position[] positions) {
-
+        this.name = name;
+        this.color = color;
+        this.positions = positions;
     }
 
     /**
@@ -22,15 +24,17 @@ public class Card {
      * @return String que contém o nome da carta
      */
     public String getName() {
-        return null;
+        return name;
     }
+
+
 
     /**
      * Método que devolve a cor da carta
      * @return Enum Color que contém a cor da carta
      */
     public Color getColor() {
-        return null;
+        return color;
     }
 
     /**
@@ -63,5 +67,9 @@ public class Card {
      * @return Vetor de cartas com todas as cartas do jogo
      */
     public static Card[] createCards() {
-        return null;
-    }}
+        
+
+
+
+        
+    }

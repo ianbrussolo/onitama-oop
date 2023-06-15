@@ -3,8 +3,8 @@
  */
 public class Piece {
     
-    Color color;
-    boolean isMaster;
+    public Color color;
+    public boolean isMaster;
     /**
      * Construtor que define a cor e o tipo da peça
      * @param color Cor da peça
