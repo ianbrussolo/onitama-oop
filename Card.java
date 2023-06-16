@@ -51,5 +51,67 @@ public class Card {
      * @return Vetor de cartas com todas as cartas do jogo
      */
     public static Card[] createCards() {
-        return null;
-    }}
+            Card[] cards = new Card[8];
+        
+            Position[] tigerPositions = {
+                new Position(-2, 0),
+                new Position(1, 0),
+            };
+            cards[0] = new Card("Tiger", Color.BLUE, tigerPositions);
+        
+            Position[] dragonPositions = {
+                new Position(-1, -2),
+                new Position(-1, 2),
+                new Position(1, 1),
+                new Position(1, -1)
+            };
+            cards[1] = new Card("Dragon", Color.RED, dragonPositions);
+        
+            Position[] frogPositions = {
+                new Position(0, -2),
+                new Position(1, -1),
+                new Position(-1, -1)
+            };
+            cards[2] = new Card("Frog", Color.RED , frogPositions);
+        
+            Position[] rabbitPositions = {
+                new Position(0, 2),
+                new Position(-1, 1),
+                new Position(1, -1)
+            };
+            cards[3] = new Card("Rabbit", Color.BLUE, rabbitPositions);
+        
+            Position[] crabPositions = {
+                new Position(-1, 0),
+                new Position(0, 2),
+                new Position(0, -2)
+            };
+            cards[4] = new Card("Crab", Color.BLUE, crabPositions);
+        
+            Position[] elephantPositions = {
+                new Position(0, -1),
+                new Position(0, 1),
+                new Position(-1, 1),
+                new Position(-1, -1)
+            };
+            cards[5] = new Card("Elephant", Color.RED, elephantPositions);
+        
+            Position[] goosePositions = {
+                new Position(0, -1),
+                new Position(0, 1),
+                new Position(1, 1),
+                new Position(-1, -1)
+            };
+            cards[6] = new Card("Goose", Color.BLUE, goosePositions);
+        
+            Position[] roosterPositions = {
+                new Position(0, 1),
+                new Position(0, -1),
+                new Position(-1, 1),
+                new Position(1, -1)
+            };
+            cards[7] = new Card("Rooster", Color.RED, roosterPositions);
+        
+            return cards;
+        }
+}
