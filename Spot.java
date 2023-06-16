@@ -71,28 +71,32 @@ public class Spot {
         return color;
     }
 
-    // /**
-    // * Método que verifica se a posição é válida no tabuleiro
-    // *
-    // * @return Um booleano que indica se o objeto representa uma posição válida no
-    // * tabuleiro
-    // */
-    // public boolean isValid() {
-
-    // int row = pos.row;
-    // int col = pos.col;
-
-    // // Verifica se as coordenadas estão dentro dos limites do tabuleiro
-    // retangular
-    // // 5x5
-
-    // if (row >= 0 && row < 5 && col >= 0 && col < 5) {
-    // return true;
-    // } else {
-    // return false;
-    // }
-
-    // }
+    /**
+     * Método que cria um tabuleiro com os espaços e peças iniciais
+     * 
+     * @param size Tamanho do tabuleiro
+     */
+    public static Spot[][] createBoard(int size) {
+        Spot[][] board = new Spot[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (i == 0) {
+                    if (j == size / 2)
+                        board[i][j] = new Spot(new Piece(Color.BLUE, true), new Position(i, j), Color.BLUE);
+                    else
+                        board[i][j] = new Spot(new Piece(Color.BLUE, false), new Position(i, j), Color.BLUE);
+                }
+                if (i == size - 1) {
+                    if (j == size / 2)
+                        board[i][j] = new Spot(new Piece(Color.RED, true), new Position(i, j), Color.RED);
+                    else
+                        board[i][j] = new Spot(new Piece(Color.RED, false), new Position(i, j), Color.RED);
+                } else
+                    board[i][j] = new Spot(new Position(i, j));
+            }
+        }
+        return board;
+    }
 
     /**
      * Método que ocupa o espaço atual com a peça passada
@@ -106,9 +110,9 @@ public class Spot {
         if (this.piece != null) {
             if (piece.getColor() == this.piece.getColor()) {
                 throw new IllegalMovementException("O espaço já está ocupado por uma peça da mesma cor.");
-                //captura de peca
-            } else{
-              this.piece.capturePiece();
+                // captura de peca
+            } else {
+                this.piece.capturePiece();
             }
             // local apto a ser ocupado
             this.piece = piece;
