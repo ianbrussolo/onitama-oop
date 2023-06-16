@@ -19,6 +19,8 @@ public class Player {
         this.name = name;
         this.pieceColor = pieceColor;
         this.cards = cards;
+        card1 = cards[0];
+        card2 = cards[1];
     }
 
     /**
@@ -34,7 +36,8 @@ public class Player {
         this.pieceColor = pieceColor;
         this.card1 = card1;
         this.card2 = card2;
-
+        Card[] cards = { card1, card2 };
+        this.cards = cards;
     }
 
     /**
@@ -61,8 +64,6 @@ public class Player {
      * @return Booleano (class card) true para caso seja um mestre e false caso contrário
      */
     public Card[] getCards() {
-        //Card[] cards = { card1, card2 };
-
         return cards;
     }
 

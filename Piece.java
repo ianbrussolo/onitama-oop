@@ -31,15 +31,11 @@ public class Piece {
      * @return Booleano true para caso seja um mestre e false caso contrário
      */
     public boolean isMaster() {
-        if (isMaster) return true;
-        return false;
+       return isMaster;
     }
 
-    /**
-     * Método que devolve se a peça ainda está em jogo ou não
-     * @return Booleano true para caso esteja em jogo e false caso contrário
-     */
-    public boolean isAlive() {
+
+    public boolean Alive() {
         return alive;
     }
 

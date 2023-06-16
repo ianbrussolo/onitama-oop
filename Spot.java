@@ -67,31 +67,32 @@ public class Spot {
      * @return Enum Color com a cor do espaço. Caso o espaço não tenha cor, o valor
      *         do enum será NONE
      */
-    Color getColor() {
+    public Color getColor() {
         return color;
     }
 
-    /**
-     * Método que verifica se a posição é válida no tabuleiro
-     * 
-     * @return Um booleano que indica se o objeto representa uma posição válida no
-     *         tabuleiro
-     */
-    public boolean isValid() {
+    // /**
+    // * Método que verifica se a posição é válida no tabuleiro
+    // *
+    // * @return Um booleano que indica se o objeto representa uma posição válida no
+    // * tabuleiro
+    // */
+    // public boolean isValid() {
 
-        int row = pos.row;
-        int col = pos.col;
+    // int row = pos.row;
+    // int col = pos.col;
 
-        // Verifica se as coordenadas estão dentro dos limites do tabuleiro retangular
-        // 5x5
+    // // Verifica se as coordenadas estão dentro dos limites do tabuleiro
+    // retangular
+    // // 5x5
 
-        if (row >= 0 && row < 5 && col >= 0 && col < 5) {
-            return true;
-        } else {
-            return false;
-        }
+    // if (row >= 0 && row < 5 && col >= 0 && col < 5) {
+    // return true;
+    // } else {
+    // return false;
+    // }
 
-    }
+    // }
 
     /**
      * Método que ocupa o espaço atual com a peça passada
@@ -101,12 +102,17 @@ public class Spot {
      *                                     peça da mesma cor
      */
     protected void occupySpot(Piece piece) throws IllegalMovementException {
-        //ocupado //peça a ser ocupada da mesma cor
-        if (this.piece != null && piece.getColor() == this.piece.getColor()) {
-            throw new IllegalMovementException("O espaço já está ocupado por uma peça da mesma cor.");
+        // ocupado //peça a ser ocupada da mesma cor
+        if (this.piece != null) {
+            if (piece.getColor() == this.piece.getColor()) {
+                throw new IllegalMovementException("O espaço já está ocupado por uma peça da mesma cor.");
+                //captura de peca
+            } else{
+              this.piece.capturePiece();
+            }
+            // local apto a ser ocupado
+            this.piece = piece;
         }
-        //local apto a ser ocupado
-        this.piece = piece;
     }
 
     /**
@@ -114,6 +120,6 @@ public class Spot {
      */
     protected void releaseSpot() {
         this.piece = null;
-
+        this.color = Color.NONE;
     }
 }
