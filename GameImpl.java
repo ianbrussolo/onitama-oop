@@ -107,7 +107,11 @@ public class GameImpl implements Game {
         }
 
         // SO MOVER COM O CAPTURE
+        Piece currentPiece = board[currentPos.getRow()][currentPos.getCol()].getPiece();
+        Spot oldSpot = board[currentRow][currentCol];
 
+        board[destRow][destCol].occupySpot(currentPiece);
+        oldSpot.releaseSpot();
     }
 
     
