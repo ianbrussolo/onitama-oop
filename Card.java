@@ -81,15 +81,15 @@ public class Card {
 
         Position[] frogPositions = {
                 new Position(0, -2),
-                new Position(1, -1),
+                new Position(1, 1),
                 new Position(-1, -1)
         };
         allCards.add(new Card("Frog", Color.RED, frogPositions));
 
         Position[] rabbitPositions = {
                 new Position(0, 2),
-                new Position(-1, 1),
-                new Position(1, -1)
+                new Position(1, -1),
+                new Position(-1, 1)
         };
         allCards.add(new Card("Rabbit", Color.BLUE, rabbitPositions));
 
@@ -103,24 +103,24 @@ public class Card {
         Position[] elephantPositions = {
                 new Position(0, -1),
                 new Position(0, 1),
-                new Position(-1, 1),
-                new Position(-1, -1)
+                new Position(-1, -1),
+                new Position(-1, 1)
         };
         allCards.add(new Card("Elephant", Color.RED, elephantPositions));
 
         Position[] goosePositions = {
                 new Position(0, -1),
                 new Position(0, 1),
-                new Position(1, 1),
-                new Position(-1, -1)
+                new Position(-1, -1),
+                new Position(1, 1)
         };
         allCards.add(new Card("Goose", Color.BLUE, goosePositions));
 
         Position[] roosterPositions = {
                 new Position(0, 1),
                 new Position(0, -1),
-                new Position(-1, 1),
-                new Position(1, -1)
+                new Position(1, -1),
+                new Position(-1, 1)
         };
         allCards.add(new Card("Rooster", Color.RED, roosterPositions));
 

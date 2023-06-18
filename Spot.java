@@ -81,16 +81,16 @@ public class Spot {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (i == 0) {
-                    if (j == size / 2)
+                    if (j == size / 2) {
                         board[i][j] = new Spot(new Piece(Color.BLUE, true), new Position(i, j), Color.BLUE);
-                    else
-                        board[i][j] = new Spot(new Piece(Color.BLUE, false), new Position(i, j), Color.BLUE);
-                }
-                if (i == size - 1) {
+                    } else {
+                        board[i][j] = new Spot(new Piece(Color.BLUE, false), new Position(i, j));
+                    } 
+                } else if (i == size - 1) {
                     if (j == size / 2)
                         board[i][j] = new Spot(new Piece(Color.RED, true), new Position(i, j), Color.RED);
                     else
-                        board[i][j] = new Spot(new Piece(Color.RED, false), new Position(i, j), Color.RED);
+                        board[i][j] = new Spot(new Piece(Color.RED, false), new Position(i, j));
                 } else
                     board[i][j] = new Spot(new Position(i, j));
             }
@@ -108,17 +108,19 @@ public class Spot {
     protected void occupySpot(Piece piece) throws IllegalMovementException {
         // ocupado //peça a ser ocupada da mesma cor
         if (this.piece != null) {
+            System.out.println("        peça nao nula ()dentro do if");
             if (piece.getColor() == this.piece.getColor()) {
                 throw new IllegalMovementException("O espaço já está ocupado por uma peça da mesma cor.");
                 // captura de peca
             } else {
                 this.piece.capturePiece();
             }
-            // local apto a ser ocupado
-            this.piece = piece;
-            this.color = piece.getColor();
-
+            
         }
+        // local apto a ser ocupado
+        this.piece = piece;
+        this.color = piece.getColor();
+        System.out.println("posição ocupada");
     }
 
     /**

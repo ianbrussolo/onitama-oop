@@ -76,20 +76,21 @@ public class Player {
      *                                 e/ou na mesa
      */
 
-
      //obs talvez tenha que trocar a card no array cads tambem
     protected void swapCard(Card oldCard, Card newCard) throws InvalidCardException {
         // Verifica se a carta antiga está na mão do jogador
-    if (oldCard != card1 && oldCard != card2) {
-        throw new InvalidCardException("A carta antiga não está na mão do jogador.");
+        /* if (oldCard != card1 || oldCard != card2) {
+            throw new InvalidCardException("A carta antiga não está na mão do jogador.");
+        } */
+
+        // Realiza a troca de cartas
+        if (oldCard == card1) {
+            this.cards[0] = newCard;
+        } else {
+            this.cards[1] = newCard;
+        }
     }
 
-    // Realiza a troca de cartas
-    if (oldCard == card1) {
-        card1 = newCard;
-    } else {
-        card2 = newCard;
-    }
-
-    }
 }
+
+        

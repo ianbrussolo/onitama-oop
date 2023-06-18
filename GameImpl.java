@@ -1,12 +1,17 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
+import java.util.Collections;
+
 public class GameImpl implements Game {
 
-    private Player redPlayer; // jogador das cartas vermelhas
-    private Player bluePlayer; // jogador das cartas azuis
+    private final Player redPlayer; // jogador das cartas vermelhas
+    private final Player bluePlayer; // jogador das cartas azuis
     private Spot[][] board; // matriz de posicoes
     private Card tableCard; // carta da mesa
     private Card[] cards; // cartas no jogo
 
-    private boolean redTurn;
+    private boolean redTurn; //turno 
 
     /**
      * Construtor que inicia o jogo com as informações básicas
@@ -27,6 +32,45 @@ public class GameImpl implements Game {
 
     }
 
+    public GameImpl(String redName, String blueName){
+        this.board = Spot.createBoard(5);
+        this.cards = Card.createCards();
+
+        this.redPlayer = new Player(redName, Color.RED, this.cards[0], this.cards[1]);
+        this.bluePlayer = new Player(blueName, Color.BLUE, this.cards[2], this.cards[3]);
+
+        this.tableCard = this.cards[4];
+        
+        if (this.cards[4].getColor().equals(Color.RED)) {
+            redTurn = true;
+        } else
+            redTurn = false;
+    }
+
+    public GameImpl(String redName, String blueName, Card[] cards){
+        this.board = Spot.createBoard(5);
+
+        List<Card> cardsList = new ArrayList<Card>(Arrays.asList(cards));
+
+        if (cardsList.contains(null)) {
+            throw new IllegalArgumentException("Cards cannot be null");
+        }
+
+        Collections.shuffle(cardsList);
+
+        this.cards = cardsList.subList(0, 5).toArray(new Card[5]);
+
+        this.redPlayer = new Player(redName, Color.RED, this.cards[0], this.cards[1]);
+        this.bluePlayer = new Player(blueName, Color.BLUE, this.cards[2], this.cards[3]);
+
+        this.tableCard = this.cards[4];
+
+        if (this.cards[4].getColor().equals(Color.RED)) {
+            redTurn = true;
+        } else
+            redTurn = false;
+    }
+
     public Color getSpotColor(Position position) {
         return this.board[position.getRow()][position.getCol()].getColor();
     }
@@ -39,6 +83,11 @@ public class GameImpl implements Game {
     public Card getTableCard() {
         return tableCard;
 
+    }
+
+    public Player getCurrentPlayer() {
+        Player currentPlayer = redTurn ? redPlayer : bluePlayer;
+        return currentPlayer;
     }
 
     public Player getRedPlayer() {
@@ -73,22 +122,36 @@ public class GameImpl implements Game {
             throws IncorrectTurnOrderException, IllegalMovementException, InvalidCardException, InvalidPieceException {
 
         // Verificar qual o jogador
-        Player currentPlayer = redTurn ? redPlayer : bluePlayer;
+        Player currentPlayer = getCurrentPlayer();
+                        //Player currentPlayer = redTurn ? redPlayer : bluePlayer;
 
         // verifica se é o jogador da vez
 
-        if (!board[currentPos.getRow()][currentPos.getCol()].getColor().equals(currentPlayer.getPieceColor())) {
+        /* if (!board[currentPos.getRow()][currentPos.getCol()].getColor().equals(currentPlayer.getPieceColor())) {
             throw new IncorrectTurnOrderException("Não é a vez desse jogador.");
-        }
+        } */
 
         // verifica se a carta é valida
-        if (!card.equals(currentPlayer.getCards()[0]) || !card.equals(currentPlayer.getCards()[1])) {
+        /* if (!card.equals(currentPlayer.getCards()[0]) || !card.equals(currentPlayer.getCards()[1])) {
             throw new InvalidCardException("O jogador nao possui essa carta");
-        }
+        } */
 
         // verifica se a peca a ser movida é valida
-        if (!board[currentPos.getRow()][currentPos.getCol()].getPiece().Alive()) {
+        /* if (!board[currentPos.getRow()][currentPos.getCol()].getPiece().Alive()) {
             throw new InvalidPieceException("Peça fora do tabulero");
+        } */
+        
+        // Verificar se o movimento é válido
+        Position[] possibleMoves = card.getPositions();
+        boolean validMove = false;
+        for (Position move : possibleMoves) {
+            if (move.equals(cardMove)) {
+                validMove = true;
+                break;
+            }
+        }
+        if (!validMove) {
+            throw new IllegalMovementException("O movimento selecionado não é válido para a carta escolhida.");
         }
 
         int movRow = cardMove.getRow();
@@ -106,20 +169,25 @@ public class GameImpl implements Game {
         int destRow = currentRow + movRow;
         int destCol = currentCol + movCol;
 
+        System.out.println("spot de destino:" + destRow + ", " + destCol);
+
         if ((destRow < 0 || destRow > 4) || (destCol < 0 || destCol > 4)) {
             throw new IllegalMovementException("Movimento excede o tabuleiro");
         }
 
-        // Movimentacao da peca o captura
-        Spot finalSpot = board[destRow][destCol];
-
-        finalSpot.occupySpot(board[destRow][destCol].getPiece());
-
+        // Movimentacao da peca ou captura
+        Piece movedPiece = board[currentRow][currentCol].getPiece();
         // libera o espaço antigo
         board[currentPos.getRow()][currentPos.getCol()].releaseSpot();
-
+        Spot finalSpot = board[destRow][destCol];
+        finalSpot.occupySpot(new Piece(movedPiece.getColor(), movedPiece.isMaster()));
+        
         // altera a vez do jogador
         redTurn = !redTurn;
+      
+        //troca a carta do jogador que fez a jogada com a do tabuleiro
+        currentPlayer.swapCard(card, this.tableCard);
+        this.tableCard = card;
 
         return;
 
@@ -167,18 +235,30 @@ public class GameImpl implements Game {
     }
 
     public void printBoard() {
+        //boolean blueTurn = false; 
+        //if (!redTurn) blueTurn = true;
+
+        //for (int row = (blueTurn ? board.length - 1 : 0); (blueTurn ? row >= 0 : row < board.length); row += (blueTurn ? -1 : 1)) {
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[row].length; col++) {
                 Spot spot = board[row][col];
                 Piece piece = spot.getPiece();
 
                 if (piece != null) {
-                    System.out.print(piece.getColor() + " ");
+                    if (piece.getColor().equals(Color.RED) && !piece.isMaster()) {
+                        System.out.print("r ");
+                    } else if (piece.getColor().equals(Color.BLUE) && !piece.isMaster()) {
+                        System.out.print("b ");
+                    } else if ((piece.getColor().equals(Color.RED) && piece.isMaster())) {
+                        System.out.print("R ");
+                    } else if ((piece.getColor().equals(Color.BLUE) && piece.isMaster())) {
+                        System.out.print("B ");
+                    }
                 } else {
                     System.out.print("- ");
                 }
             }
-            System.out.println(); // Move to the next line for the next row
+            System.out.println();
         }
     }
 }

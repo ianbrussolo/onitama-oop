@@ -22,6 +22,7 @@ public interface Game {
      */
     Card getTableCard();
 
+    public Player getCurrentPlayer();
     /**
      * Método que devolve as informações sobre o jogador com as peças vermelhas
      * @return Um objeto Player que representa o jogador vermelho
