@@ -116,6 +116,8 @@ public class Spot {
             }
             // local apto a ser ocupado
             this.piece = piece;
+            this.color = piece.getColor();
+
         }
     }
 
