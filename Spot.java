@@ -85,8 +85,8 @@ public class Spot {
                         board[i][j] = new Spot(new Piece(Color.BLUE, true), new Position(i, j), Color.BLUE);
                     } else {
                         board[i][j] = new Spot(new Piece(Color.BLUE, false), new Position(i, j));
-                    } 
-                } else if (i == size - 1) {
+                    }  
+                }  else  if (i == size - 1) {
                     if (j == size / 2)
                         board[i][j] = new Spot(new Piece(Color.RED, true), new Position(i, j), Color.RED);
                     else
@@ -108,7 +108,6 @@ public class Spot {
     protected void occupySpot(Piece piece) throws IllegalMovementException {
         // ocupado //peça a ser ocupada da mesma cor
         if (this.piece != null) {
-            System.out.println("        peça nao nula ()dentro do if");
             if (piece.getColor() == this.piece.getColor()) {
                 throw new IllegalMovementException("O espaço já está ocupado por uma peça da mesma cor.");
                 // captura de peca
@@ -120,7 +119,6 @@ public class Spot {
         // local apto a ser ocupado
         this.piece = piece;
         this.color = piece.getColor();
-        System.out.println("posição ocupada");
     }
 
     /**

@@ -4,9 +4,7 @@
 public class Player {
     private String name;
     private Color pieceColor; // cor das pecas do jogador
-    private Card[] cards;
-    private Card card1; // cartas na mao do jogador
-    private Card card2; // cartas na mao do jogador
+    private Card[] cards; // cartas na mao do jogador
 
     /**
      * Construtor que define informações básicas do jogador
@@ -19,8 +17,6 @@ public class Player {
         this.name = name;
         this.pieceColor = pieceColor;
         this.cards = cards;
-        card1 = cards[0];
-        card2 = cards[1];
     }
 
     /**
@@ -34,8 +30,6 @@ public class Player {
     public Player(String name, Color pieceColor, Card card1, Card card2) {
         this.name = name;
         this.pieceColor = pieceColor;
-        //this.card1 = card1;
-        //this.card2 = card2;
         Card[] cards = { card1, card2 };
         this.cards = cards;
     }
@@ -84,7 +78,7 @@ public class Player {
         } */
 
         // Realiza a troca de cartas
-        if (oldCard == card1) {
+        if (oldCard.equals(this.cards[0])) {
             this.cards[0] = newCard;
         } else {
             this.cards[1] = newCard;

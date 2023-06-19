@@ -120,26 +120,28 @@ public class GameImpl implements Game {
 
     public void makeMove(Card card, Position cardMove, Position currentPos)
             throws IncorrectTurnOrderException, IllegalMovementException, InvalidCardException, InvalidPieceException {
-
+        if (board[currentPos.getRow()][currentPos.getCol()].getPiece() == null) {
+            // Nao ha nenhuma peca nessa posicao
+            return;
+        }
         // Verificar qual o jogador
         Player currentPlayer = getCurrentPlayer();
-                        //Player currentPlayer = redTurn ? redPlayer : bluePlayer;
-
+                    
         // verifica se é o jogador da vez
-
-        /* if (!board[currentPos.getRow()][currentPos.getCol()].getColor().equals(currentPlayer.getPieceColor())) {
+        if (board[currentPos.getRow()][currentPos.getCol()].getPiece() != null && !board[currentPos.getRow()][currentPos.getCol()].getPiece().getColor().equals(currentPlayer.getPieceColor())) {
             throw new IncorrectTurnOrderException("Não é a vez desse jogador.");
-        } */
+        }
 
         // verifica se a carta é valida
-        /* if (!card.equals(currentPlayer.getCards()[0]) || !card.equals(currentPlayer.getCards()[1])) {
+        if (!card.equals(currentPlayer.getCards()[0]) && !card.equals(currentPlayer.getCards()[1])) {
             throw new InvalidCardException("O jogador nao possui essa carta");
-        } */
+        }
 
         // verifica se a peca a ser movida é valida
-        /* if (!board[currentPos.getRow()][currentPos.getCol()].getPiece().Alive()) {
+        if (board[currentPos.getRow()][currentPos.getCol()].getPiece() != null && 
+            !board[currentPos.getRow()][currentPos.getCol()].getPiece().Alive()) {
             throw new InvalidPieceException("Peça fora do tabulero");
-        } */
+        }
         
         // Verificar se o movimento é válido
         Position[] possibleMoves = card.getPositions();
@@ -169,8 +171,6 @@ public class GameImpl implements Game {
         int destRow = currentRow + movRow;
         int destCol = currentCol + movCol;
 
-        System.out.println("spot de destino:" + destRow + ", " + destCol);
-
         if ((destRow < 0 || destRow > 4) || (destCol < 0 || destCol > 4)) {
             throw new IllegalMovementException("Movimento excede o tabuleiro");
         }
@@ -188,7 +188,7 @@ public class GameImpl implements Game {
         //troca a carta do jogador que fez a jogada com a do tabuleiro
         currentPlayer.swapCard(card, this.tableCard);
         this.tableCard = card;
-
+        
         return;
 
     }
@@ -202,25 +202,21 @@ public class GameImpl implements Game {
         // Verificar se o mestre do jogador da cor especificada está no templo oposto
         if (currentPlayer.getPieceColor().equals(Color.RED)) {
 
-            if (board[0][2].getPiece().isMaster() || board[0][2].getColor().equals(Color.RED))
+            if (board[0][2].getPiece() != null && board[0][2].getPiece().isMaster() && board[0][2].getPiece().getColor().equals(Color.RED))
                 return true; // O mestre do vermelho esta no templo azul
         } else {
-            if (board[4][2].getPiece().isMaster() || board[4][2].getColor().equals(Color.BLUE))
+            if (board[4][2].getPiece() != null && board[4][2].getPiece().isMaster() && board[4][2].getPiece().getColor().equals(Color.BLUE))
                 return true; // O mestre do azul esta no templo vermelho
         }
 
         boolean masterAlive = false;
-        boolean thereIsOpponent = false;
-
+        
         // Verificar se todas as peças do oponente estão capturadas ou bloqueadas
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 5; col++) {
                 Piece piece = board[row][col].getPiece();
                 if (piece != null) {
-                    if (piece.getColor() == opponentPlayer.getPieceColor()) {
-                        thereIsOpponent = true; // Ainda existem peças do oponente no tabuleiro
-                    }
-                    if (piece.isMaster()) {
+                    if (piece.getColor().equals(opponentPlayer.getPieceColor()) && piece.isMaster()) {
                         masterAlive = true; // mestre esta vivo
                     }
                 }
@@ -228,17 +224,13 @@ public class GameImpl implements Game {
 
         }
         // Todas as condições de vitória foram atendidas
-        if ((!masterAlive) || (!thereIsOpponent))
+        if ((!masterAlive)) {
             return true;
-
+        }
         return false;
     }
 
     public void printBoard() {
-        //boolean blueTurn = false; 
-        //if (!redTurn) blueTurn = true;
-
-        //for (int row = (blueTurn ? board.length - 1 : 0); (blueTurn ? row >= 0 : row < board.length); row += (blueTurn ? -1 : 1)) {
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[row].length; col++) {
                 Spot spot = board[row][col];

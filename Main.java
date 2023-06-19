@@ -40,13 +40,16 @@ public class Main {
         Player redPlayer = game.getRedPlayer();
         Player bluePlayer = game.getBluePlayer();
 
-        Card tableCard = game.getTableCard();
-
-        printPlayerHand(redPlayer);
-        printPlayerHand(bluePlayer);
-
+        Card tableCard;
+        /* tableCard = game.getTableCard();
+        Player currentPlayer = game.getCurrentPlayer();
+        game.printBoard();
+        
+        game.checkVictory(currentPlayer.getPieceColor());
+        game.checkVictory(currentPlayer.getPieceColor()); */
         //começando o jogo
         while (true) {
+            tableCard = game.getTableCard();
             System.out.println();
             System.out.println("Carta da mesa: ");
             printCardMoves(tableCard);
@@ -74,8 +77,11 @@ public class Main {
             Position destPos = currentCard.getPositions()[moveIndex];
 
             game.makeMove(currentCard, destPos, currentPosition);
-            System.out.println("movimento efetuado com sucesso");
             game.printBoard();
+            if (game.checkVictory(currentPlayer.getPieceColor())) {
+                System.out.println("vitoria do jogador " + currentPlayer.getPieceColor());
+                break;
+            }
         }
     }
 }
